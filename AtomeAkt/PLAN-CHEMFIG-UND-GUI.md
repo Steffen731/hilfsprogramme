@@ -169,3 +169,22 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 ---
 
 **Entscheidungsvermerk:** Die Anforderungen „ausführliche Strukturformeln **und** Halbstrukturformeln“, „gut lesbarer und manuell editierbarer `chemfig`-Code mit sinnvollen Submols/Kommentaren“, „leicht nutzbare KI-/Arbeitsblatt-Schnittstelle“, „GUI für den Nutzer“ sowie „später Zugriff auf weitere Programme/Skripte“ sind Nutzeranforderungen. Alle konkreten API-, Modul- und UI-Entscheidungen bleiben bis zur Umsetzung Vorschläge.
+
+## 10. Arbeitsprotokoll: 18.11.2026 – Umsetzungsbeginn
+
+**Entwicklungszweig:** feature/atomeakt-chemfig-core (noch nicht in main integriert).
+
+**Phase 0 – teilweise erledigt:**
+- [x] Aktuelle GitHub-Fassung geprüft: VB.NET/.NET 8; alter Generator in Atom.vb, Kohlenwasserstoff.vb, KohlenstoffKette.vb; LEK-Aufruf in Module1.vb.
+- [x] Unabhängiger Layoutprototyp: 7 Referenzmoleküle × 2 Darstellungsarten = 14 Formeln mit pdflatex erfolgreich kompiliert, alle drei PDF-Seiten visuell kontrolliert.
+- [x] Separater GitHub-Entwicklungszweig angelegt; die bisherige Anwendung wurde nicht verändert.
+- [ ] Originalprojekt unter Visual Studio/.NET 8 bauen und als Baseline prüfen (hier kein .NET-SDK verfügbar).
+
+**Frühe Implementierung Phasen 1–3 – Quelltext vorhanden, Build offen:**
+- [x] ChemfigCore/AlkaneMolecule.vb: unabhängig validierter C-Graph, C-Valenz und Summenformel; IUPAC-Hauptkettenalgorithmus noch offen.
+- [x] ChemfigCore/ChemfigRenderer.vb: direkte Halbstruktur- und ausführliche Chemfig-Ausgabe mit Kommentaren und lokalen Submol-Makros.
+- [x] ChemfigCore.SmokeTests/Program.vb: sieben Referenzfälle (14 Renderungen) und Tests ungültiger Moleküle; erzeugt TeX-Prüfdatei.
+- [ ] VB.NET-Build sowie tatsächlich vom VB-Renderer erzeugte TeX-Dateien kompilieren und visuell kontrollieren. Prototyp-PDFs ersetzen diesen Test nicht.
+- [ ] Komplexere Verzweigungen, IUPAC-Benennung, KI-/Arbeitsblatt-Schnittstelle und GUI bleiben offen.
+
+**Nächster konkreter Schritt:** Aus Verzeichnis AtomeAkt die .NET-8-Befehle aus ChemfigCore/README.md aufrufen; Kompilations-/Darstellungsfehler beheben, bevor der neue Kern in die bisherigen LEK-Skripte eingebunden wird.
