@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.33529.622
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AtomeAkt", "AtomeAkt\AtomeAkt.vbproj", "{8265EE39-6BC4-4B77-BAEA-36D1DF417BFF}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ChemfigCore", "ChemfigCore\ChemfigCore.vbproj", "{14F92758-A4ED-47B5-A1BD-603F843F0647}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ChemfigCore.SmokeTests", "ChemfigCore.SmokeTests\ChemfigCore.SmokeTests.vbproj", "{6EF23C5C-6B2A-468F-9FAB-A786E389A562}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8265EE39-6BC4-4B77-BAEA-36D1DF417BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8265EE39-6BC4-4B77-BAEA-36D1DF417BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8265EE39-6BC4-4B77-BAEA-36D1DF417BFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F92758-A4ED-47B5-A1BD-603F843F0647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F92758-A4ED-47B5-A1BD-603F843F0647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F92758-A4ED-47B5-A1BD-603F843F0647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F92758-A4ED-47B5-A1BD-603F843F0647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EF23C5C-6B2A-468F-9FAB-A786E389A562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EF23C5C-6B2A-468F-9FAB-A786E389A562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EF23C5C-6B2A-468F-9FAB-A786E389A562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EF23C5C-6B2A-468F-9FAB-A786E389A562}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
