@@ -9,6 +9,7 @@ Imports System.Drawing
 Imports System.Globalization
 Imports System.IO
 Imports System.Linq
+Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Windows.Forms
 Imports AtomeAkt.Chemistry
