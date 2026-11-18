@@ -214,3 +214,22 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 - [ ] Visual-Studio-Version bzw. .NET-10-Unterstützung der IDE prüfen, falls die CLI erfolgreich, aber Visual Studio nicht baut.
 
 **Wichtig:** Der Hauptzweig `main` wurde nicht verändert. Alte Einträge im Arbeitsprotokoll zu .NET 8 dokumentieren den damaligen Zustand und sind durch diesen Abschnitt überholt.
+
+### Ergebnis der ersten integrierten End-to-End-Pruefung (18.11.2026)
+
+**Status: ERFOLGREICH** – GitHub Actions-Lauf `44301979087`, geprüfter Code-Commit `0a2a1caf639ffb6de96b5e6abef7d349e46ef2db`.
+
+- [x] VB.NET-Klassenbibliothek unter .NET 10 erfolgreich kompiliert.
+- [x] **Vollständige vorhandene Visual-Studio-Solution** unter .NET 10 erfolgreich kompiliert. Die bisherigen LEK-Skripte wurden dabei nicht ausgeführt.
+- [x] Smoke-Test-Programm erzeugt für 7 benannte Referenzmoleküle insgesamt 14 `chemfig`-Darstellungen.
+- [x] Prüfung auf vollständig ausgegebene C- und H-Atome in der makrofreien ausführlichen Darstellung erfolgreich.
+- [x] **Tatsächlich vom VB.NET-Renderer generierter** TeX-Code mit `pdflatex` ohne Abbruch kompiliert; dreiseitige `chemfig-referenz.pdf` als GitHub-Actions-Artefakt gesichert.
+- [x] Alle drei gerenderten PDF-Seiten visuell geprüft: Bei den sieben Referenzmolekülen keine erkennbaren Atom-/Bindungsüberlagerungen; vollständige Struktur- und Halbstrukturformeln nachvollziehbar.
+- [x] CI-Abhängigkeit `simplekv.tex` durch zusätzliche Installation von `texlive-plain-generic` behoben.
+- [ ] Erweiterte automatische visuelle/geometrische Tests, weitere Verzweigungsmuster und zufällig generierte Moleküle bleiben offen.
+- [ ] IUPAC-Hauptkettenfindung und Nomenklatur weiterhin **nicht implementiert**. Die Namen in der Referenz-PDF sind fest vorgegebene Testüberschriften, nicht generierte IUPAC-Ausgaben.
+- [ ] Arbeitsblatt-/JSON-Schnittstelle und GUI weiterhin offen.
+
+**Phase 0 / technischer Prüfpunkt:** Abgeschlossen hinsichtlich Repo-/Solution-Bestand, .NET-10-Build, Basis-Tests und TeX-Kompatibilität. **Nächster Entwicklungsschritt:** Phase 1, chemische Modellierung und Validierung für anspruchsvollere Verzweigungen, danach IUPAC-Regeln und Renderer-Erweiterungen. Nicht in `main` mergen, bevor weitere fachliche Grenzfälle und Rückwärtskompatibilität getestet sind.
+
+**Wichtige Grenze:** Erfolgreiche LaTeX-Kompilation und Sichtkontrolle von sieben Beispielen ersetzen keine allgemeine Korrektheitsgarantie des Generators.
