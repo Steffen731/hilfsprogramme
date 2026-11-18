@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports AtomeAkt.Chemistry
 
 Friend NotInheritable Class FormulaExample
@@ -55,6 +56,20 @@ Module Program
                 Require(molecule.CarbonNeighbors(c).Count + molecule.HydrogenCountAtCarbon(c) = 4,
                         "Ungueltige C-Valenz: " & example.Caption)
             Next
+
+            ' Ohne Submols/Kommentare muss die Vollstruktur explizit alle C/H-Atome enthalten.
+            Dim verifyOptions As New ChemfigRenderOptions With {
+                .UseSubmolecules = False,
+                .IncludeComments = False
+            }
+            Dim explicitFull As String = ChemfigRenderer.Render(
+                molecule, AlkaneFormulaKind.Ausfuehrlich, verifyOptions)
+            Dim writtenCarbonAtoms As Integer = Regex.Matches(explicitFull, "C(?=\(|-\[)").Count
+            Dim writtenHydrogenAtoms As Integer = Regex.Matches(explicitFull, "H\)").Count
+            Require(writtenCarbonAtoms = molecule.CarbonCount,
+                    "Vollstruktur enthaelt nicht alle C-Atome: " & example.Caption)
+            Require(writtenHydrogenAtoms = molecule.HydrogenCount,
+                    "Vollstruktur enthaelt nicht alle H-Atome: " & example.Caption)
 
             For Each kind As AlkaneFormulaKind In {AlkaneFormulaKind.Halbstruktur, AlkaneFormulaKind.Ausfuehrlich}
                 Dim fragment As String = ChemfigRenderer.Render(molecule, kind)
