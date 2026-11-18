@@ -200,3 +200,17 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 - [ ] Keine Integration des neuen Renderers in `CreateLEKAlkane` bis diese Grenze bestanden ist.
 
 **Hinweis zur lokalen Umgebung:** Die frühere Visual-Studio-Warnung deutete auf ein fehlendes .NET-SDK oder eine inkompatible VS-Version hin. `net8.0` bleibt vorerst bestehen, bis die tatsächlich installierte Toolchain festgestellt ist.
+
+### Fortschritt 18.11.2026 – Umstellung auf .NET 10 (ersetzt vorherige SDK-8-Empfehlung)
+
+- [x] Bestätigter lokaler Rechnerzustand laut Nutzer: Git-Repository in `D:\hilfsprogramme`, sauber auf `main`, Remote-Zweig `origin/feature/atomeakt-chemfig-core` vorhanden.
+- [x] Lokale SDKs laut Nutzer: `10.0.404` und `11.0.100`; SDK 8 ist nicht installiert.
+- [x] Alle drei Projektdateien im **GitHub-Entwicklungszweig** auf `net10.0` gestellt (`AtomeAkt`, `ChemfigCore`, `ChemfigCore.SmokeTests`).
+- [x] `AtomeAkt/global.json` mit .NET-10-SDK-Auswahl (`10.0.100`, `latestFeature`) hinzugefügt, sodass SDK 11 nicht versehentlich gewählt wird.
+- [x] GitHub-Actions-Workflow auf .NET 10 angepasst.
+- [x] Buildanleitung in `ChemfigCore/README.md` auf .NET 10 aktualisiert.
+- [ ] **Lokal noch auszuführen**: `git switch --track origin/feature/atomeakt-chemfig-core`. Der GitHub-Connector kann diesen lokalen Schritt nicht übernehmen.
+- [ ] Anschließend `dotnet --version`, `dotnet build`, Smoke-Test, LaTeX-Kompilation und Sichtkontrolle; bis dahin kein erfolgreicher .NET-10-Build bestätigt.
+- [ ] Visual-Studio-Version bzw. .NET-10-Unterstützung der IDE prüfen, falls die CLI erfolgreich, aber Visual Studio nicht baut.
+
+**Wichtig:** Der Hauptzweig `main` wurde nicht verändert. Alte Einträge im Arbeitsprotokoll zu .NET 8 dokumentieren den damaligen Zustand und sind durch diesen Abschnitt überholt.
