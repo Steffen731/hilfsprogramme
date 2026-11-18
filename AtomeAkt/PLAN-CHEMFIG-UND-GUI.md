@@ -233,3 +233,20 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 **Phase 0 / technischer Prüfpunkt:** Abgeschlossen hinsichtlich Repo-/Solution-Bestand, .NET-10-Build, Basis-Tests und TeX-Kompatibilität. **Nächster Entwicklungsschritt:** Phase 1, chemische Modellierung und Validierung für anspruchsvollere Verzweigungen, danach IUPAC-Regeln und Renderer-Erweiterungen. Nicht in `main` mergen, bevor weitere fachliche Grenzfälle und Rückwärtskompatibilität getestet sind.
 
 **Wichtige Grenze:** Erfolgreiche LaTeX-Kompilation und Sichtkontrolle von sieben Beispielen ersetzen keine allgemeine Korrektheitsgarantie des Generators.
+
+### Fortschritt 18.11.2026 – fruehe lokale Windows-GUI als pruefbarer Meilenstein
+
+**Umsetzung im Entwicklungszweig** `feature/atomeakt-chemfig-core`:
+
+- [x] `ChemfigDesktop/ChemfigDesktop.vbproj`: eigenstaendige Windows-Forms-Anwendung fuer `.NET 10 (net10.0-windows)`; nutzt `ChemfigCore` als Bibliothek, keine Veraenderung alter LEK-Skripte.
+- [x] `ChemfigDesktop/MainForm.vb`: sichtbare Eingaben fuer Zeichen-Hauptkette, Seitenketten `Position:Laenge`, sieben Referenzbeispiele, Formelart, kommentierten editierbaren Quelltext, optionale Submol-Definitionen und Bindungslaengen.
+- [x] `ChemfigDesktop`: Quelltext in Zwischenablage kopieren, vollstaendige `.tex`-Datei speichern, lokale PDF-Vorschau mit `pdflatex` aufrufen; zum Kopieren/Speichern ist keine TeX-Installation erforderlich.
+- [x] GUI in `AtomeAkt.sln` aufgenommen (jetzt vier Projekte).
+- [x] Windows-CI-Job baut die **gesamte Solution** inklusive GUI unter .NET 10 und speichert Windows-Build-Artefakt. **Erster Windows-GUI-Build erfolgreich:** Lauf `44303818301` (windows-gui-Job erfolgreich).
+- [x] GUI-Start, Eingabeformat und Grenzen in `ChemfigDesktop/README.md` dokumentiert.
+- [ ] **Lokaler GUI-Funktionstest auf Nutzerrechner:** GUI mit `dotnet run --project .\AtomeAkt\ChemfigDesktop\ChemfigDesktop.vbproj` aus der Repositorywurzel starten, Beispiele umschalten, beide Formelarten generieren, Code veraendern/kopieren, TeX speichern und optional PDF ueber lokale TeX-Distribution oeffnen. Noch nicht als erledigt markieren.
+- [ ] Windows-GUI wurde **gebaut, aber noch nicht interaktiv auf einem Windows-Desktop bedient**; Layout und Bedienbarkeit brauchen Nutzerkontrolle.
+- [ ] Fachliche Grenzen: noch keine automatische IUPAC-Benennung oder Hauptkettenfindung, nur lineare Seitenketten; keine JSON-/CLI-Schnittstelle, kein scriptuebergreifender Starter.
+- [ ] Nach dem lokalen Test gezielt weiterarbeiten: IUPAC-Logik, komplexere Verzweigungen und GUI-Vorschau/Usability anhand von realen Testfaellen.
+
+**Arbeitsreihenfolge:** Phase 0 abgeschlossen. GUI-Prototyp als **frueher pruefbarer Teil von Phase 7** vorgezogen. Phasen 1, 4–6 und 8 noch nicht abgeschlossen. `main` unberuehrt, Draft-PR #1 offen und nicht zusammenzufuehren, bevor ausreichende fachliche Tests vorliegen.
