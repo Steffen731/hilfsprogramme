@@ -27,7 +27,7 @@ jobs:
       - name: Install TeX Live (chemfig)
         run: |
           sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-latex-recommended texlive-pictures
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-latex-recommended texlive-pictures texlive-plain-generic
       - name: Compile actual VB-generated TeX
         working-directory: AtomeAkt/chemfig-test-output
         run: pdflatex -halt-on-error -interaction=nonstopmode chemfig-referenz.tex
