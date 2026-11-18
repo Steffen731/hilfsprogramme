@@ -169,3 +169,84 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 ---
 
 **Entscheidungsvermerk:** Die Anforderungen „ausführliche Strukturformeln **und** Halbstrukturformeln“, „gut lesbarer und manuell editierbarer `chemfig`-Code mit sinnvollen Submols/Kommentaren“, „leicht nutzbare KI-/Arbeitsblatt-Schnittstelle“, „GUI für den Nutzer“ sowie „später Zugriff auf weitere Programme/Skripte“ sind Nutzeranforderungen. Alle konkreten API-, Modul- und UI-Entscheidungen bleiben bis zur Umsetzung Vorschläge.
+
+## 10. Arbeitsprotokoll: 18.11.2026 – Umsetzungsbeginn
+
+**Entwicklungszweig:** feature/atomeakt-chemfig-core (noch nicht in main integriert).
+
+**Phase 0 – teilweise erledigt:**
+- [x] Aktuelle GitHub-Fassung geprüft: VB.NET/.NET 8; alter Generator in Atom.vb, Kohlenwasserstoff.vb, KohlenstoffKette.vb; LEK-Aufruf in Module1.vb.
+- [x] Unabhängiger Layoutprototyp: 7 Referenzmoleküle × 2 Darstellungsarten = 14 Formeln mit pdflatex erfolgreich kompiliert, alle drei PDF-Seiten visuell kontrolliert.
+- [x] Separater GitHub-Entwicklungszweig angelegt; die bisherige Anwendung wurde nicht verändert.
+- [ ] Originalprojekt unter Visual Studio/.NET 8 bauen und als Baseline prüfen (hier kein .NET-SDK verfügbar).
+
+**Frühe Implementierung Phasen 1–3 – Quelltext vorhanden, Build offen:**
+- [x] ChemfigCore/AlkaneMolecule.vb: unabhängig validierter C-Graph, C-Valenz und Summenformel; IUPAC-Hauptkettenalgorithmus noch offen.
+- [x] ChemfigCore/ChemfigRenderer.vb: direkte Halbstruktur- und ausführliche Chemfig-Ausgabe mit Kommentaren und lokalen Submol-Makros.
+- [x] ChemfigCore.SmokeTests/Program.vb: sieben Referenzfälle (14 Renderungen) und Tests ungültiger Moleküle; erzeugt TeX-Prüfdatei.
+- [ ] VB.NET-Build sowie tatsächlich vom VB-Renderer erzeugte TeX-Dateien kompilieren und visuell kontrollieren. Prototyp-PDFs ersetzen diesen Test nicht.
+- [ ] Komplexere Verzweigungen, IUPAC-Benennung, KI-/Arbeitsblatt-Schnittstelle und GUI bleiben offen.
+
+**Nächster konkreter Schritt:** Aus Verzeichnis AtomeAkt die .NET-8-Befehle aus ChemfigCore/README.md aufrufen; Kompilations-/Darstellungsfehler beheben, bevor der neue Kern in die bisherigen LEK-Skripte eingebunden wird.
+
+### Fortschritt 18.11.2026 – Solution und Smoke-Tests (nachfolgender Schritt)
+
+- [x] Vorhandene `AtomeAkt.sln` um `ChemfigCore` und `ChemfigCore.SmokeTests` mit Debug-/Release-Konfiguration erweitert. Projektdateien des Altprojekts unverändert.
+- [x] Smoke-Tests um C- und H-Atomzählung in der makrofreien Vollstruktur erweitert.
+- [x] `.gitignore` um generierte lokale Chemfig-Testausgaben ergänzt.
+- [x] `ChemfigCore/README.md` um Visual-Studio-Testweg ergänzt.
+- [ ] **Nächste harte Grenze:** Nutzer baut `ChemfigCore.SmokeTests` lokal mit .NET-8-SDK und zeigt Build-/Ausführungsfehler oder Erfolg; anschließend tatsächliche generierte TeX-Datei mit `pdflatex` kompilieren und visuell kontrollieren.
+- [ ] GitHub Actions ist als Workflow angelegt, jedoch liegt noch kein bestätigtes Ergebnis vor (Connector liefert keine verwertbare Ausführung). Nicht als erfolgreich getestet markieren.
+- [ ] Keine Integration des neuen Renderers in `CreateLEKAlkane` bis diese Grenze bestanden ist.
+
+**Hinweis zur lokalen Umgebung:** Die frühere Visual-Studio-Warnung deutete auf ein fehlendes .NET-SDK oder eine inkompatible VS-Version hin. `net8.0` bleibt vorerst bestehen, bis die tatsächlich installierte Toolchain festgestellt ist.
+
+### Fortschritt 18.11.2026 – Umstellung auf .NET 10 (ersetzt vorherige SDK-8-Empfehlung)
+
+- [x] Bestätigter lokaler Rechnerzustand laut Nutzer: Git-Repository in `D:\hilfsprogramme`, sauber auf `main`, Remote-Zweig `origin/feature/atomeakt-chemfig-core` vorhanden.
+- [x] Lokale SDKs laut Nutzer: `10.0.404` und `11.0.100`; SDK 8 ist nicht installiert.
+- [x] Alle drei Projektdateien im **GitHub-Entwicklungszweig** auf `net10.0` gestellt (`AtomeAkt`, `ChemfigCore`, `ChemfigCore.SmokeTests`).
+- [x] `AtomeAkt/global.json` mit .NET-10-SDK-Auswahl (`10.0.100`, `latestFeature`) hinzugefügt, sodass SDK 11 nicht versehentlich gewählt wird.
+- [x] GitHub-Actions-Workflow auf .NET 10 angepasst.
+- [x] Buildanleitung in `ChemfigCore/README.md` auf .NET 10 aktualisiert.
+- [ ] **Lokal noch auszuführen**: `git switch --track origin/feature/atomeakt-chemfig-core`. Der GitHub-Connector kann diesen lokalen Schritt nicht übernehmen.
+- [ ] Anschließend `dotnet --version`, `dotnet build`, Smoke-Test, LaTeX-Kompilation und Sichtkontrolle; bis dahin kein erfolgreicher .NET-10-Build bestätigt.
+- [ ] Visual-Studio-Version bzw. .NET-10-Unterstützung der IDE prüfen, falls die CLI erfolgreich, aber Visual Studio nicht baut.
+
+**Wichtig:** Der Hauptzweig `main` wurde nicht verändert. Alte Einträge im Arbeitsprotokoll zu .NET 8 dokumentieren den damaligen Zustand und sind durch diesen Abschnitt überholt.
+
+### Ergebnis der ersten integrierten End-to-End-Pruefung (18.11.2026)
+
+**Status: ERFOLGREICH** – GitHub Actions-Lauf `44301979087`, geprüfter Code-Commit `0a2a1caf639ffb6de96b5e6abef7d349e46ef2db`.
+
+- [x] VB.NET-Klassenbibliothek unter .NET 10 erfolgreich kompiliert.
+- [x] **Vollständige vorhandene Visual-Studio-Solution** unter .NET 10 erfolgreich kompiliert. Die bisherigen LEK-Skripte wurden dabei nicht ausgeführt.
+- [x] Smoke-Test-Programm erzeugt für 7 benannte Referenzmoleküle insgesamt 14 `chemfig`-Darstellungen.
+- [x] Prüfung auf vollständig ausgegebene C- und H-Atome in der makrofreien ausführlichen Darstellung erfolgreich.
+- [x] **Tatsächlich vom VB.NET-Renderer generierter** TeX-Code mit `pdflatex` ohne Abbruch kompiliert; dreiseitige `chemfig-referenz.pdf` als GitHub-Actions-Artefakt gesichert.
+- [x] Alle drei gerenderten PDF-Seiten visuell geprüft: Bei den sieben Referenzmolekülen keine erkennbaren Atom-/Bindungsüberlagerungen; vollständige Struktur- und Halbstrukturformeln nachvollziehbar.
+- [x] CI-Abhängigkeit `simplekv.tex` durch zusätzliche Installation von `texlive-plain-generic` behoben.
+- [ ] Erweiterte automatische visuelle/geometrische Tests, weitere Verzweigungsmuster und zufällig generierte Moleküle bleiben offen.
+- [ ] IUPAC-Hauptkettenfindung und Nomenklatur weiterhin **nicht implementiert**. Die Namen in der Referenz-PDF sind fest vorgegebene Testüberschriften, nicht generierte IUPAC-Ausgaben.
+- [ ] Arbeitsblatt-/JSON-Schnittstelle und GUI weiterhin offen.
+
+**Phase 0 / technischer Prüfpunkt:** Abgeschlossen hinsichtlich Repo-/Solution-Bestand, .NET-10-Build, Basis-Tests und TeX-Kompatibilität. **Nächster Entwicklungsschritt:** Phase 1, chemische Modellierung und Validierung für anspruchsvollere Verzweigungen, danach IUPAC-Regeln und Renderer-Erweiterungen. Nicht in `main` mergen, bevor weitere fachliche Grenzfälle und Rückwärtskompatibilität getestet sind.
+
+**Wichtige Grenze:** Erfolgreiche LaTeX-Kompilation und Sichtkontrolle von sieben Beispielen ersetzen keine allgemeine Korrektheitsgarantie des Generators.
+
+### Fortschritt 18.11.2026 – fruehe lokale Windows-GUI als pruefbarer Meilenstein
+
+**Umsetzung im Entwicklungszweig** `feature/atomeakt-chemfig-core`:
+
+- [x] `ChemfigDesktop/ChemfigDesktop.vbproj`: eigenstaendige Windows-Forms-Anwendung fuer `.NET 10 (net10.0-windows)`; nutzt `ChemfigCore` als Bibliothek, keine Veraenderung alter LEK-Skripte.
+- [x] `ChemfigDesktop/MainForm.vb`: sichtbare Eingaben fuer Zeichen-Hauptkette, Seitenketten `Position:Laenge`, sieben Referenzbeispiele, Formelart, kommentierten editierbaren Quelltext, optionale Submol-Definitionen und Bindungslaengen.
+- [x] `ChemfigDesktop`: Quelltext in Zwischenablage kopieren, vollstaendige `.tex`-Datei speichern, lokale PDF-Vorschau mit `pdflatex` aufrufen; zum Kopieren/Speichern ist keine TeX-Installation erforderlich.
+- [x] GUI in `AtomeAkt.sln` aufgenommen (jetzt vier Projekte).
+- [x] Windows-CI-Job baut die **gesamte Solution** inklusive GUI unter .NET 10 und speichert Windows-Build-Artefakt. **Erster Windows-GUI-Build erfolgreich:** Lauf `44303818301` (windows-gui-Job erfolgreich).
+- [x] GUI-Start, Eingabeformat und Grenzen in `ChemfigDesktop/README.md` dokumentiert.
+- [ ] **Lokaler GUI-Funktionstest auf Nutzerrechner:** GUI mit `dotnet run --project .\AtomeAkt\ChemfigDesktop\ChemfigDesktop.vbproj` aus der Repositorywurzel starten, Beispiele umschalten, beide Formelarten generieren, Code veraendern/kopieren, TeX speichern und optional PDF ueber lokale TeX-Distribution oeffnen. Noch nicht als erledigt markieren.
+- [ ] Windows-GUI wurde **gebaut, aber noch nicht interaktiv auf einem Windows-Desktop bedient**; Layout und Bedienbarkeit brauchen Nutzerkontrolle.
+- [ ] Fachliche Grenzen: noch keine automatische IUPAC-Benennung oder Hauptkettenfindung, nur lineare Seitenketten; keine JSON-/CLI-Schnittstelle, kein scriptuebergreifender Starter.
+- [ ] Nach dem lokalen Test gezielt weiterarbeiten: IUPAC-Logik, komplexere Verzweigungen und GUI-Vorschau/Usability anhand von realen Testfaellen.
+
+**Arbeitsreihenfolge:** Phase 0 abgeschlossen. GUI-Prototyp als **frueher pruefbarer Teil von Phase 7** vorgezogen. Phasen 1, 4–6 und 8 noch nicht abgeschlossen. `main` unberuehrt, Draft-PR #1 offen und nicht zusammenzufuehren, bevor ausreichende fachliche Tests vorliegen.

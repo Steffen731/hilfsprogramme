@@ -1,0 +1,58 @@
+name: ChemfigCore (.NET 10)
+
+on:
+  push:
+    branches:
+      - feature/atomeakt-chemfig-core
+  pull_request:
+    paths:
+      - 'AtomeAkt/ChemfigCore/**'
+      - 'AtomeAkt/ChemfigCore.SmokeTests/**'
+      - 'AtomeAkt/ChemfigDesktop/**'
+      - 'AtomeAkt/AtomeAkt.sln'
+      - '.github/workflows/chemfig-core.yml'
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Compile isolated core
+        run: dotnet build AtomeAkt/ChemfigCore/ChemfigCore.vbproj -c Release
+      - name: Build legacy console program
+        run: dotnet build AtomeAkt/AtomeAkt/AtomeAkt.vbproj -c Release
+      - name: Generate reference TeX from VB
+        run: dotnet run --project AtomeAkt/ChemfigCore.SmokeTests/ChemfigCore.SmokeTests.vbproj -c Release -- AtomeAkt/chemfig-test-output
+      - name: Install TeX Live (chemfig)
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-latex-recommended texlive-pictures texlive-plain-generic
+      - name: Compile actual VB-generated TeX
+        working-directory: AtomeAkt/chemfig-test-output
+        run: pdflatex -halt-on-error -interaction=nonstopmode chemfig-referenz.tex
+      - name: Save TeX and PDF fixture for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: chemfig-reference-tex-pdf
+          path: |
+            AtomeAkt/chemfig-test-output/chemfig-referenz.tex
+            AtomeAkt/chemfig-test-output/chemfig-referenz.pdf
+
+  windows-gui:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Compile complete Visual Studio solution, including GUI
+        run: dotnet build AtomeAkt/AtomeAkt.sln -c Release
+      - name: Upload local desktop application
+        uses: actions/upload-artifact@v4
+        with:
+          name: chemfig-desktop-windows
+          path: |
+            AtomeAkt/ChemfigDesktop/bin/Release/net10.0-windows/**
