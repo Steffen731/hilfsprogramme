@@ -1,0 +1,13 @@
+# Visual Studio and local settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+*.binlog
+AtomeAkt.local.xml
