@@ -1,4 +1,4 @@
-name: ChemfigCore (.NET 8)
+name: ChemfigCore (.NET 10)
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
       - name: Compile isolated core
         run: dotnet build AtomeAkt/ChemfigCore/ChemfigCore.vbproj -c Release
       - name: Generate reference TeX from VB
