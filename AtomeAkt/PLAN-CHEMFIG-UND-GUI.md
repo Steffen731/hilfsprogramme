@@ -188,3 +188,15 @@ Tests für zufällige Generation: fester Seed und Reproduzierbarkeit, keine Endl
 - [ ] Komplexere Verzweigungen, IUPAC-Benennung, KI-/Arbeitsblatt-Schnittstelle und GUI bleiben offen.
 
 **Nächster konkreter Schritt:** Aus Verzeichnis AtomeAkt die .NET-8-Befehle aus ChemfigCore/README.md aufrufen; Kompilations-/Darstellungsfehler beheben, bevor der neue Kern in die bisherigen LEK-Skripte eingebunden wird.
+
+### Fortschritt 18.11.2026 – Solution und Smoke-Tests (nachfolgender Schritt)
+
+- [x] Vorhandene `AtomeAkt.sln` um `ChemfigCore` und `ChemfigCore.SmokeTests` mit Debug-/Release-Konfiguration erweitert. Projektdateien des Altprojekts unverändert.
+- [x] Smoke-Tests um C- und H-Atomzählung in der makrofreien Vollstruktur erweitert.
+- [x] `.gitignore` um generierte lokale Chemfig-Testausgaben ergänzt.
+- [x] `ChemfigCore/README.md` um Visual-Studio-Testweg ergänzt.
+- [ ] **Nächste harte Grenze:** Nutzer baut `ChemfigCore.SmokeTests` lokal mit .NET-8-SDK und zeigt Build-/Ausführungsfehler oder Erfolg; anschließend tatsächliche generierte TeX-Datei mit `pdflatex` kompilieren und visuell kontrollieren.
+- [ ] GitHub Actions ist als Workflow angelegt, jedoch liegt noch kein bestätigtes Ergebnis vor (Connector liefert keine verwertbare Ausführung). Nicht als erfolgreich getestet markieren.
+- [ ] Keine Integration des neuen Renderers in `CreateLEKAlkane` bis diese Grenze bestanden ist.
+
+**Hinweis zur lokalen Umgebung:** Die frühere Visual-Studio-Warnung deutete auf ein fehlendes .NET-SDK oder eine inkompatible VS-Version hin. `net8.0` bleibt vorerst bestehen, bis die tatsächlich installierte Toolchain festgestellt ist.
