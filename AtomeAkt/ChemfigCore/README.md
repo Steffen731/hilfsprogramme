@@ -14,15 +14,15 @@
 
 - **Keine IUPAC-Benennung und kein Namensparser:** Die Zeichen-Hauptkette ist noch nicht automatisch als längste IUPAC-Hauptkette validiert. Überschriften im Testprogramm sind handgeprüfte Referenzbezeichnungen.
 - Lineare Seitenketten, keine untergeordnet verzweigten Seitenketten, Ringe oder Doppelbindungen.
-- Noch kein Zufallsgenerator mit Seed, keine dokumentierte JSON-CLI und keine GUI.
-- **VB.NET-Build und tatsächlicher Smoke-Test des VB-Renderers noch offen:** Für den GitHub-Quelltext liegt noch kein bestätigter Build-Nachweis vor. Der Code wurde deshalb separat abgelegt und greift nicht in die bestehende Anwendung ein.
+- Noch kein Zufallsgenerator mit Seed und keine dokumentierte JSON-CLI. Eine erste **Windows-GUI zum lokalen Testen** ist unter `../ChemfigDesktop` vorhanden; sie ist noch kein vollständiger IUPAC-Nomenklaturgenerator.
+- **CI-Basistest erfolgreich:** Der VB.NET-Renderer wurde unter .NET 10 gebaut, die sieben Referenzmoleküle wurden in beiden Formelarten generiert und tatsächlich mit `pdflatex` kompiliert. Das bestehende Atom-/LEK-Programm wird bei diesen Tests nicht gestartet.
 - Unabhängiger geometrischer TeX-Prototyp: sieben Referenzmoleküle × beide Formeltypen mit `pdflatex` erfolgreich kompiliert und visuell kontrolliert. Das beweist den Layoutansatz, **nicht** den Build des VB.NET-Moduls.
 
 ## Lokal prüfen (Visual Studio / .NET 10 SDK)
 
 Alle drei Projekte sind auf `net10.0` eingestellt. `../global.json` wählt die .NET-10-SDK-Familie (statt eines parallel installierten .NET-11-SDKs). Unter Visual Studio muss eine Version mit .NET-10-Unterstützung installiert sein.
 
-In der Solution sollten nun drei Projekte sichtbar sein: `AtomeAkt`, `ChemfigCore` und `ChemfigCore.SmokeTests`. Zum Testen das Startprojekt auf **ChemfigCore.SmokeTests** setzen. Die alte LEK-Anwendung wird nicht ausgeführt.
+In der Solution sollten nun vier Projekte sichtbar sein: `AtomeAkt`, `ChemfigCore`, `ChemfigCore.SmokeTests` und **`ChemfigDesktop`**. Zum Testen das Startprojekt auf **ChemfigCore.SmokeTests** setzen. Die alte LEK-Anwendung wird nicht ausgeführt.
 
 Nach dem Wechsel auf den Entwicklungszweig aus `D:\hilfsprogramme\AtomeAkt`:
 
@@ -46,7 +46,7 @@ Dim halb As String = ChemfigRenderer.Render(mol, AlkaneFormulaKind.Halbstruktur)
 Dim voll As String = ChemfigRenderer.Render(mol, AlkaneFormulaKind.Ausfuehrlich)
 ```
 
-Ein zusätzlicher Test kontrolliert bei ausgeschalteten Makros für jede Vollstruktur die explizite Anzahl der C- und H-Atome. **Der neue VB.NET-Code ist noch nicht durch einen bestätigten lokalen oder CI-Build verifiziert.**
+Ein zusätzlicher Test kontrolliert bei ausgeschalteten Makros für jede Vollstruktur die explizite Anzahl der C- und H-Atome. **Der CI-Build und die TeX-Kompilation der Referenzfälle sind erfolgreich.** Ein interaktiver Start der Windows-GUI auf dem Nutzerrechner steht noch aus.
 
 Der erzeugte Code ist für Dokumente mit `\usepackage{chemfig}` vorgesehen. Keine `\mathrm`-Konstruktionen erforderlich.
 
@@ -55,6 +55,6 @@ Der erzeugte Code ist für Dokumente mit `\usepackage{chemfig}` vorgesehen. Kein
 1. **Auf Nutzerrechner kompilieren**, tatsächliche vom VB-Programm geschriebene `.tex`-Datei mit `pdflatex` prüfen und PDF kontrollieren.
 2. Graph-/Namenslogik erweitern (wirklich längste Hauptkette, Lokantenvergleich und Substituenten), zusätzliche Grenzfalltests.
 3. Layout verbessern, dann eine stabile CLI-/JSON-Schnittstelle für Arbeitsblätter.
-4. Anschließend GUI und später die Hilfsprogramm-Zentrale.
+4. Die erste Windows-GUI ist jetzt als lokaler Testeinstieg vorhanden; sie wird nach dem Nutzerfeedback weiterentwickelt. Später folgt die Hilfsprogramm-Zentrale.
 
 Der verbindliche Gesamtplan steht unter [../PLAN-CHEMFIG-UND-GUI.md](../PLAN-CHEMFIG-UND-GUI.md).
