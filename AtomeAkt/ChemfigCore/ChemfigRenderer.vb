@@ -75,8 +75,9 @@ Namespace Chemistry
 
             sb.AppendLine("\chemfig{")
             For position As Integer = 1 To molecule.MainChainLength
+                Dim currentPosition As Integer = position
                 Dim branchesAtPosition As AlkaneBranch() = molecule.Branches.
-                    Where(Function(b) b.Position = position).ToArray()
+                    Where(Function(b) b.Position = currentPosition).ToArray()
                 Dim line As New StringBuilder("  ")
                 If position > 1 Then line.Append(Bond(0, options.MainBondLength))
                 If isFull Then
@@ -119,7 +120,8 @@ Namespace Chemistry
 
         Private Shared Function AnyBranchInDirection(molecule As AlkaneMolecule, angle As Integer) As Boolean
             For position As Integer = 1 To molecule.MainChainLength
-                Dim count As Integer = molecule.Branches.Count(Function(b) b.Position = position)
+                Dim currentPosition As Integer = position
+                Dim count As Integer = molecule.Branches.Where(Function(b) b.Position = currentPosition).Count()
                 For index As Integer = 0 To count - 1
                     If BranchDirection(position, index, count) = angle Then Return True
                 Next
