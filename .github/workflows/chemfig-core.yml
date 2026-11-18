@@ -20,10 +20,21 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Compile isolated core
         run: dotnet build AtomeAkt/ChemfigCore/ChemfigCore.vbproj -c Release
+      - name: Build the complete Visual Studio solution
+        run: dotnet build AtomeAkt/AtomeAkt.sln -c Release
       - name: Generate reference TeX from VB
         run: dotnet run --project AtomeAkt/ChemfigCore.SmokeTests/ChemfigCore.SmokeTests.vbproj -c Release -- AtomeAkt/chemfig-test-output
-      - name: Save TeX fixture for inspection
+      - name: Install TeX Live (chemfig)
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-latex-recommended texlive-pictures
+      - name: Compile actual VB-generated TeX
+        working-directory: AtomeAkt/chemfig-test-output
+        run: pdflatex -halt-on-error -interaction=nonstopmode chemfig-referenz.tex
+      - name: Save TeX and PDF fixture for inspection
         uses: actions/upload-artifact@v4
         with:
-          name: chemfig-reference-tex
-          path: AtomeAkt/chemfig-test-output/chemfig-referenz.tex
+          name: chemfig-reference-tex-pdf
+          path: |
+            AtomeAkt/chemfig-test-output/chemfig-referenz.tex
+            AtomeAkt/chemfig-test-output/chemfig-referenz.pdf
